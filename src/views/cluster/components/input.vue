@@ -9,7 +9,7 @@
     />
     <small class="text-danger">{{ errors[0] }} </small>
   </validation-provider>
-</template>
+</template> 
 
 <script>
 import { ValidationProvider } from "vee-validate";
