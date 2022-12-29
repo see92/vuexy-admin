@@ -17,5 +17,8 @@ const cityOptions = [
   { key: 6, title: "成都" },
   { key: 7, title: "南京" },
 ];
-
-export { searchOptions, cityOptions };
+const stateOptions = [
+  { key: 0, title: "禁用" },
+  { key: 1, title: "启用" },
+];
+export { searchOptions, cityOptions, stateOptions };

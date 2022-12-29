@@ -24,6 +24,7 @@ import {
   validatorCreditCard,
   validatorPhone,
   validatorCode,
+  validatorIp,
 } from "./validators";
 
 // ////////////////////////////////////////////////////////
@@ -71,6 +72,10 @@ export const code = extend("code", {
   validate: validatorCode,
   message: "验证码输入错误",
 });
+export const ip = extend("ip", {
+  validate: validatorIp,
+  message: "IP地址输入错误！",
+});
 export const password = extend("password", {
   validate: validatorPassword,
   message:
@@ -91,11 +96,17 @@ localize({
       password: "密码",
       phone: "手机号码",
       code: "验证码",
+      cluName: "集群名称",
+      ip: "IP地址",
     },
 
     fields: {
       password: {
         min: "{_field_} is too short, you want to get hacked?",
+      },
+      ip: {
+        ip: "请输入正确的{_field_}",
+        required: "IP地址不能为空",
       },
     },
   },
