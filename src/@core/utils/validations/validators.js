@@ -43,3 +43,10 @@ export const validatorCode = (code) => {
     return true;
   }
 };
+// IP地址
+export const validatorIp = (ip) => {
+  const iRegExp =
+    /^((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}(\:([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])){0,1}$/;
+  const validIp = iRegExp.test(ip);
+  return validIp;
+};

@@ -43,13 +43,27 @@ const router = new VueRouter({
       name: "cluster",
       component: () => import("@/views/cluster/index"),
       meta: {
-        pageTitle: "集群列表",
+        pageTitle: "集群管理",
         basePage: true,
         breadcrumb: [
           {
-            text: "集群列表",
+            text: "集群管理",
             active: true,
           },
+        ],
+      },
+    },
+    {
+      path: "/cluster/add",
+      name: "clusterAdd",
+      component: () => import("@/views/cluster/pages/clusterInfo"),
+      meta: {
+        pageTitle: "新增",
+        navActiveLink: "cluster",
+        basePage: true,
+        breadcrumb: [
+          { text: "集群管理", to: "/cluster" },
+          { text: "新增", active: true },
         ],
       },
     },
