@@ -9,7 +9,9 @@
           <b-tab title="服务引擎">
             <engine ref="engine" />
           </b-tab>
-          <b-tab title="存储"></b-tab>
+          <b-tab title="存储">
+            <storage />
+          </b-tab>
           <b-tab title="DB"></b-tab>
           <b-tab title="Redis"></b-tab>
           <b-tab title="ES"></b-tab>
@@ -33,8 +35,7 @@
 <script>
 import { BCard, BForm, BTab, BTabs, BButton } from "bootstrap-vue";
 import { ValidationObserver } from "vee-validate";
-import setting from "./clu_setting.vue";
-import engine from "./clu_engine.vue";
+import { setting, engine, storage } from "../pages";
 export default {
   name: "clusterInfo",
   components: {
@@ -46,6 +47,7 @@ export default {
     setting,
     BButton,
     engine,
+    storage,
   },
   data() {
     return {};

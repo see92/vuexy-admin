@@ -3,6 +3,7 @@
     <b-form-input
       :state="errors.length > 0 ? false : null"
       style="width: 300px"
+      class="mr-1"
       v-model="currentValue"
       placeholder="请输入ip地址"
       @input="input"
