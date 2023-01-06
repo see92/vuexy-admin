@@ -39,7 +39,7 @@ export const validatorPhone = (phone) => {
 };
 // 验证码
 export const validatorCode = (code) => {
-  if (code.length === 6) {
+  if (code.length === 6 || code.length === 3) {
     return true;
   }
 };

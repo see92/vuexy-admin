@@ -12,7 +12,9 @@
           <b-tab title="存储">
             <storage />
           </b-tab>
-          <b-tab title="DB"></b-tab>
+          <b-tab title="DB">
+            <db />
+          </b-tab>
           <b-tab title="Redis"></b-tab>
           <b-tab title="ES"></b-tab>
         </b-tabs>
@@ -35,7 +37,7 @@
 <script>
 import { BCard, BForm, BTab, BTabs, BButton } from "bootstrap-vue";
 import { ValidationObserver } from "vee-validate";
-import { setting, engine, storage } from "../pages";
+import { setting, engine, storage, db } from "../pages";
 export default {
   name: "clusterInfo",
   components: {
@@ -48,6 +50,7 @@ export default {
     BButton,
     engine,
     storage,
+    db,
   },
   data() {
     return {};

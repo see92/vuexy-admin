@@ -1,23 +1,18 @@
 <template>
   <div class="navbar-container d-flex content align-items-center">
-
     <!-- Nav Menu Toggler -->
     <ul class="nav navbar-nav d-xl-none">
       <li class="nav-item">
-        <b-link
-          class="nav-link"
-          @click="toggleVerticalMenuActive"
-        >
-          <feather-icon
-            icon="MenuIcon"
-            size="21"
-          />
+        <b-link class="nav-link" @click="toggleVerticalMenuActive">
+          <feather-icon icon="MenuIcon" size="21" />
         </b-link>
       </li>
     </ul>
 
     <!-- Left Col -->
-    <div class="bookmark-wrapper align-items-center flex-grow-1 d-none d-lg-flex">
+    <div
+      class="bookmark-wrapper align-items-center flex-grow-1 d-none d-lg-flex"
+    >
       <dark-Toggler class="d-none d-lg-block" />
     </div>
 
@@ -29,9 +24,7 @@
       >
         <template #button-content>
           <div class="d-sm-flex d-none user-nav">
-            <p class="user-name font-weight-bolder mb-0">
-              John Doe
-            </p>
+            <p class="user-name font-weight-bolder mb-0">John Doe</p>
             <span class="user-status">Admin</span>
           </div>
           <b-avatar
@@ -45,49 +38,29 @@
         </template>
 
         <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
-            size="16"
-            icon="UserIcon"
-            class="mr-50"
-          />
+          <feather-icon size="16" icon="UserIcon" class="mr-50" />
           <span>Profile</span>
         </b-dropdown-item>
 
         <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
-            size="16"
-            icon="MailIcon"
-            class="mr-50"
-          />
+          <feather-icon size="16" icon="MailIcon" class="mr-50" />
           <span>Inbox</span>
         </b-dropdown-item>
 
         <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
-            size="16"
-            icon="CheckSquareIcon"
-            class="mr-50"
-          />
+          <feather-icon size="16" icon="CheckSquareIcon" class="mr-50" />
           <span>Task</span>
         </b-dropdown-item>
 
         <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
-            size="16"
-            icon="MessageSquareIcon"
-            class="mr-50"
-          />
+          <feather-icon size="16" icon="MessageSquareIcon" class="mr-50" />
           <span>Chat</span>
         </b-dropdown-item>
 
         <b-dropdown-divider />
 
-        <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
-            size="16"
-            icon="LogOutIcon"
-            class="mr-50"
-          />
+        <b-dropdown-item link-class="d-flex align-items-center" @click="logout">
+          <feather-icon size="16" icon="LogOutIcon" class="mr-50" />
           <span>Logout</span>
         </b-dropdown-item>
       </b-nav-item-dropdown>
@@ -97,10 +70,15 @@
 
 <script>
 import {
-  BLink, BNavbarNav, BNavItemDropdown, BDropdownItem, BDropdownDivider, BAvatar,
-} from 'bootstrap-vue'
-import DarkToggler from '@core/layouts/components/app-navbar/components/DarkToggler.vue'
-
+  BLink,
+  BNavbarNav,
+  BNavItemDropdown,
+  BDropdownItem,
+  BDropdownDivider,
+  BAvatar,
+} from "bootstrap-vue";
+import DarkToggler from "@core/layouts/components/app-navbar/components/DarkToggler.vue";
+import useJwt from "@/auth/jwt/useJwt";
 export default {
   components: {
     BLink,
@@ -119,5 +97,28 @@ export default {
       default: () => {},
     },
   },
-}
+  data() {
+    return {
+      userData: JSON.parse(localStorage.getItem("userData")),
+    };
+  },
+  methods: {
+    logout() {
+      // Remove userData from localStorage
+      // ? You just removed token from localStorage. If you like, you can also make API call to backend to blacklist used token
+      localStorage.removeItem(useJwt.jwtConfig.storageTokenKeyName);
+      localStorage.removeItem(useJwt.jwtConfig.storageRefreshTokenKeyName);
+
+      // Remove userData from localStorage
+      localStorage.removeItem("userData");
+
+      // Reset ability
+      this.$ability.update(initialAbility);
+
+      // Redirect to login page
+      this.$router.push({ name: "login" });
+    },
+  },
+  beforeDestroy() {},
+};
 </script>

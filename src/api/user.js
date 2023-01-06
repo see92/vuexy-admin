@@ -17,7 +17,7 @@ export const getCode = ({ phone }) => {
 };
 // 获取个人信息
 export const getInfo = () => {
-  axios.request({
+  return axios.request({
     url: "api/Account/userinfo",
     method: "get",
   });

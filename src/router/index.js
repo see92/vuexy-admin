@@ -1,5 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import index from "./routes/index";
+import bus from "@/assets/bus.js";
 
 Vue.use(VueRouter);
 
@@ -10,84 +12,26 @@ const router = new VueRouter({
     return { x: 0, y: 0 };
   },
   routes: [
-    {
-      path: "/",
-      name: "home",
-      component: () => import("@/views/Home.vue"),
-      meta: {
-        pageTitle: "Home",
-        breadcrumb: [
-          {
-            text: "Home",
-            active: true,
-          },
-        ],
-      },
-    },
-    {
-      path: "/second-page",
-      name: "second-page",
-      component: () => import("@/views/SecondPage.vue"),
-      meta: {
-        pageTitle: "Second Page",
-        breadcrumb: [
-          {
-            text: "Second Page",
-            active: true,
-          },
-        ],
-      },
-    },
-    {
-      path: "/cluster",
-      name: "cluster",
-      component: () => import("@/views/cluster/index"),
-      meta: {
-        pageTitle: "集群管理",
-        basePage: true,
-        breadcrumb: [
-          {
-            text: "集群管理",
-            active: true,
-          },
-        ],
-      },
-    },
-    {
-      path: "/cluster/add",
-      name: "clusterAdd",
-      component: () => import("@/views/cluster/pages/clusterInfo"),
-      meta: {
-        pageTitle: "新增",
-        navActiveLink: "cluster",
-        basePage: true,
-        breadcrumb: [
-          { text: "集群管理", to: "/cluster" },
-          { text: "新增", active: true },
-        ],
-      },
-    },
-    {
-      path: "/login",
-      name: "login",
-      component: () => import("@/views/Login.vue"),
-      meta: {
-        layout: "full",
-      },
-    },
-    {
-      path: "/error-404",
-      name: "error-404",
-      component: () => import("@/views/error/Error404.vue"),
-      meta: {
-        layout: "full",
-      },
-    },
+    { path: "/", redirect: { name: "home" } },
+    ...index,
     {
       path: "*",
-      redirect: "error-404",
+      redirect: "errors-404",
     },
   ],
+});
+
+router.beforeEach((to, _, next) => {
+  bus.$emit("routerBack", to);
+  //   如果缓存中有token，就进行下一步操作
+  if (localStorage.getItem("token")) {
+    return next();
+  } else {
+    if (to.path === "/login") {
+      return next();
+    }
+    return next("/login");
+  }
 });
 
 // ? For splash screen
