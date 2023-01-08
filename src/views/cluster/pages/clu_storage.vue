@@ -35,11 +35,11 @@
 </template>
 
 <script>
-import { validationProvider } from "vee-validate";
+import { ValidationProvider } from "vee-validate";
 export default {
   name: "storage",
   components: {
-    validationProvider,
+    ValidationProvider,
   },
 };
 </script>

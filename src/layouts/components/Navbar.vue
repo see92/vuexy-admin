@@ -111,11 +111,12 @@ export default {
 
       // Remove userData from localStorage
       localStorage.removeItem("userData");
-
+      // 退出时移除localStorage中的token
+      localStorage.removeItem("token");
       // Reset ability
-      this.$ability.update(initialAbility);
 
       // Redirect to login page
+      // 点击退出跳转到登录界面
       this.$router.push({ name: "login" });
     },
   },
