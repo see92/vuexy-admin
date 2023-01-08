@@ -15,7 +15,7 @@
             <b-form-input
               :state="errors.length > 0 ? false : null"
               style="width: 550px"
-              v-model="set.cluster_name"
+              v-model="set.cluster_name"  
             />
             <small class="text-danger">{{ errors[0] }}</small>
           </b-form-group>

@@ -1,4 +1,44 @@
 <template>
+  <b-card no-body style="padding: 20px">
+    <validation-observer ref="cluForm" #default="{ invalid }">
+      <b-form @submit.prevent="handle_pre">
+        <b-tabs>
+          <b-tab title="常规设置">
+            <setting />
+          </b-tab>
+          <b-tab title="服务引擎">
+            <engine />
+          </b-tab>
+          <b-tab title="存储">
+            <storage />
+          </b-tab>  
+          <b-tab title="DB">
+            <db />
+          </b-tab>
+        </b-tabs>
+      </b-form>
+    </validation-observer>
+  </b-card>
+</template>
+
+<script>
+import { ValidationObserver } from "vee-validate";
+import { setting, engine, storage, db } from "../pages";
+export default {
+  name: "clusterInfo",
+  components: {
+    ValidationObserver,
+    setting,
+    engine,
+    storage,
+    db,
+  },
+};
+</script>
+
+<style>
+</style>
+<!-- <template>
   <b-card class="card-pd">
     <validation-observer ref="cluForm" #default="{ invalid }">
       <b-form autocomplete="off" @submit.prevent="handle_pre">
@@ -9,8 +49,12 @@
           <b-tab title="服务引擎">
             <engine ref="engine" />
           </b-tab>
-          <b-tab title="存储"></b-tab>
-          <b-tab title="DB"></b-tab>
+          <b-tab title="存储">
+            <storage />
+          </b-tab>
+          <b-tab title="DB">
+            <db />
+          </b-tab>
           <b-tab title="Redis"></b-tab>
           <b-tab title="ES"></b-tab>
         </b-tabs>
@@ -33,8 +77,7 @@
 <script>
 import { BCard, BForm, BTab, BTabs, BButton } from "bootstrap-vue";
 import { ValidationObserver } from "vee-validate";
-import setting from "./clu_setting.vue";
-import engine from "./clu_engine.vue";
+import { setting, engine, storage, db } from "../pages";
 export default {
   name: "clusterInfo",
   components: {
@@ -46,6 +89,8 @@ export default {
     setting,
     BButton,
     engine,
+    storage,
+    db,
   },
   data() {
     return {};
@@ -61,4 +106,4 @@ export default {
 </script>
 
 <style>
-</style>
+</style> -->

@@ -28,113 +28,65 @@
             Please sign-in to your account and start the adventure
           </b-card-text>
 
-          <!-- form -->
-          <validation-observer ref="loginValidation">
-            <b-form class="auth-login-form mt-2" @submit.prevent>
-              <!-- email -->
-              <b-form-group label="手机号" label-for="login-phone">
+          <!-- login -->
+          <validation-observer ref="loginForm" #default="{ invalid }">
+            <b-form class="auth-login-form mt-2" @submit.prevent="login">
+              <!-- phone -->
+              <b-form-group label="手机号" label-for="phone">
                 <validation-provider
-                  #default="{ errors }"
                   name="phone"
                   rules="required|phone"
+                  #default="{ errors }"
                 >
                   <b-form-input
-                    id="login-phone"
                     v-model="userPhone"
+                    name="phone"
+                    placeholder="手机号"
                     :state="errors.length > 0 ? false : null"
-                    name="login-phone"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
-
-              <!-- 验证码 -->
-              <b-form-group label="验证码" label-for="login-code">
-                <validation-provider
-                  #default="{ errors }"
-                  name="code"
-                  rules="required|code"
-                >
-                  <div class="d-flex justify-content-between">
-                    <b-form-input
-                      style="width: 370px"
-                      id="login-code"
-                      v-model="userCode"
-                      :state="errors.length > 0 ? false : null"
-                      name="login-code"
-                    />
+              <!-- code -->
+              <b-form-group label="验证码" label-for="code">
+                <div class="d-flex justify-content-between">
+                  <div style="width: 70%; border: 1px solid pink" class="mr-1">
+                    <validation-provider
+                      name="code"
+                      rules="required|code"
+                      #default="{ errors }"
+                    >
+                      <b-form-input
+                        :State="errors.length > 0 ? false : null"
+                        v-model="userCode"
+                        placeholder="验证码"
+                      />
+                      <small class="text-danger">{{ errors[0] }}</small>
+                    </validation-provider>
+                  </div>
+                  <div style="width: 30%; border: 1px solid yellow">
                     <b-button
-                      style="width: 86px"
-                      class="ml-1"
-                      variant="success"
-                      @click.stop="getPhoneCode"
                       :disabled="codeDisabled"
+                      @click="getPhoneCode"
+                      variant="primary"
+                      style="width: 100%"
                       >{{ codeMsg }}</b-button
                     >
                   </div>
-                  <small class="text-danger">{{ errors[0] }} </small>
-                </validation-provider>
-              </b-form-group>
-              <!-- forgot password -->
-              <!-- <b-form-group>
-                <div class="d-flex justify-content-between">
-                  <label for="login-password">Password</label>
-                  <b-link :to="{ name: 'auth-forgot-password-v2' }">
-                    <small>Forgot Password?</small>
-                  </b-link>
                 </div>
-                <validation-provider
-                  #default="{ errors }"
-                  name="Password"
-                  rules="required"
-                >
-                  <b-input-group
-                    class="input-group-merge"
-                    :class="errors.length > 0 ? 'is-invalid' : null"
-                  >
-                    <b-form-input
-                      id="login-password"
-                      v-model="password"
-                      :state="errors.length > 0 ? false : null"
-                      class="form-control-merge"
-                      :type="passwordFieldType"
-                      name="login-password"
-                      placeholder="············"
-                    />
-                    <b-input-group-append is-text>
-                      <feather-icon
-                        class="cursor-pointer"
-                        :icon="passwordToggleIcon"
-                        @click="togglePasswordVisibility"
-                      />
-                    </b-input-group-append>
-                  </b-input-group>
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group> -->
+              </b-form-group>
 
-              <!-- checkbox -->
-              <!-- <b-form-group>
-                <b-form-checkbox
-                  id="remember-me"
-                  v-model="status"
-                  name="checkbox-1"
-                >
-                  Remember Me
-                </b-form-checkbox>
-              </b-form-group> -->
-
-              <!-- submit buttons -->
               <b-button
                 type="submit"
                 variant="primary"
                 block
-                @click="validationForm"
+                :disabled="invalid"
               >
                 登录
               </b-button>
             </b-form>
           </validation-observer>
+          <!-- form -->
 
           <b-card-text class="text-center mt-2">
             <span>New on our platform? </span>
@@ -175,40 +127,14 @@
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import VuexyLogo from "@core/layouts/components/Logo.vue";
 import { getToken, getCode, getInfo } from "@/api/user";
-import {
-  BRow,
-  BCol,
-  BLink,
-  BFormGroup,
-  BFormInput,
-  BInputGroupAppend,
-  BInputGroup,
-  BFormCheckbox,
-  BCardText,
-  BCardTitle,
-  BImg,
-  BForm,
-  BButton,
-} from "bootstrap-vue";
 import { required, email } from "@validations";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import store from "@/store/index";
+import bus from "@/assets/bus.js";
+import { setToken } from "@/assets/js/token";
 
 export default {
   components: {
-    BRow,
-    BCol,
-    BLink,
-    BFormGroup,
-    BFormInput,
-    BInputGroupAppend,
-    BInputGroup,
-    BFormCheckbox,
-    BCardText,
-    BCardTitle,
-    BImg,
-    BForm,
-    BButton,
     VuexyLogo,
     ValidationProvider,
     ValidationObserver,
@@ -216,16 +142,15 @@ export default {
   mixins: [togglePasswordVisibility],
   data() {
     return {
-      status: "",
-      password: "",
+      // status: "",
+      // password: "",
       userPhone: "",
       userCode: "",
-      codeMsg: "验证码",
+      codeMsg: "获取验证码",
       codeTime: 60,
       codeDisabled: false,
       timer: null,
       sideImg: require("@/assets/images/pages/login-v2.svg"),
-      // validation rulesimport store from '@/store/index'
       required,
       email,
     };
@@ -246,51 +171,57 @@ export default {
 
   methods: {
     async getPhoneCode() {
-      console.log(this.userPhone, "phone");
-      const data = await getCode({
-        phone: this.userPhone,
-      }).then((res) => {
-        if (res.status == 200) {
-          this.$bvToast.toast("验证码已发送", {
-            title: "成功信息",
-            variant: "success",
-          });
-          this.codeDisabled = true;
-          this.timer = setInterval(() => {
-            if (this.codeTime > 0 && this.codeTime <= 60) {
-              this.codeTime--;
-              if (this.codeTime != 0) {
-                this.codeMsg = `${this.codeTime}S`;
+      const phoneReg = /^1[3456789]\d{9}$/;
+      if (phoneReg.test(this.userPhone)) {
+        await getCode({
+          phone: this.userPhone,
+        }).then((res) => {
+          if (res.status === 200) {
+            this.$bvToast.toast("验证码已发送", {
+              title: "成功信息",
+              variant: "success",
+            });
+            this.codeDisabled = true;
+            this.timer = setInterval(() => {
+              if (this.codeTime > 0 && this.codeTime <= 60) {
+                this.codeTime--;
+                if (this.codeTime !== 0) {
+                  this.codeMsg = `${this.codeTime}S`;
+                }
+              } else {
+                clearInterval(this.timer);
+                this.codeMsg = "获取验证码";
+                this.timer = null;
+                this.codeTime = 60;
+                this.codeDisabled = false;
               }
-            } else {
-              clearInterval(this.timer);
-              this.codeMsg = "验证码";
-              this.timer = null;
-              this.codeTime = 60;
-              this.codeDisabled = false;
-            }
-          }, 1000);
-        }
-      });
+            }, 1000);
+          }
+        });
+      }
     },
-    validationForm() {
-      this.$refs.loginValidation.validate().then(async (res) => {
-        if (!res) {
+    login() {
+      this.$refs.loginForm.validate().then(async (result) => {
+        if (!result) {
           this.$bvToast.toast(`${this.errors.all()[0]}`, {
             title: "错误信息",
             variant: "danger",
           });
           return;
         } else {
-          const { data, status } = await getToken({
+          const { data } = await getToken({
             phone: this.userPhone,
             code: this.userCode,
           });
           if (data && data.token) {
             window.localStorage.setItem("token", data.token);
             const res = await getInfo();
-            window.localStorage.setItem(res.data);
-            console.log(res.data, "<<<<res.data");
+            setToken(res.data);
+            if (res.data) {
+              this.$router.push({
+                path: "/",
+              });
+            }
           }
         }
       });
