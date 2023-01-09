@@ -2,7 +2,7 @@
   <b-card no-body style="padding: 20px">
     <validation-observer ref="cluForm" #default="{ invalid }">
       <b-form @submit.prevent="handle_pre">
-        <b-tabs>
+        <b-tabs class="tabs">
           <b-tab title="常规设置">
             <setting />
           </b-tab>
@@ -11,9 +11,15 @@
           </b-tab>
           <b-tab title="存储">
             <storage />
-          </b-tab>  
+          </b-tab>
           <b-tab title="DB">
             <db />
+          </b-tab>
+          <b-tab title="redis">
+            <redis />
+          </b-tab>
+          <b-tab title="es">
+            <es />
           </b-tab>
         </b-tabs>
       </b-form>
@@ -23,7 +29,7 @@
 
 <script>
 import { ValidationObserver } from "vee-validate";
-import { setting, engine, storage, db } from "../pages";
+import { setting, engine, storage, db, redis,es } from "../pages";
 export default {
   name: "clusterInfo",
   components: {
@@ -32,11 +38,22 @@ export default {
     engine,
     storage,
     db,
+    redis,
+    es
   },
 };
 </script>
 
-<style>
+<style lang="scss">
+.tabs {
+  .col-form-label {
+    width: 120px;
+  }
+  // .btn {
+  //   height: 38px;
+  //   width: 75px;
+  // }
+}
 </style>
 <!-- <template>
   <b-card class="card-pd">
