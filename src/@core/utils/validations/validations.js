@@ -78,8 +78,7 @@ export const ip = extend("ip", {
 });
 export const password = extend("password", {
   validate: validatorPassword,
-  message:
-    "Your {_field_} must contain at least one uppercase, one lowercase, one special character and one digit",
+  message: "密码长度不匹配",
 });
 
 export const url = extend("url", {
@@ -98,6 +97,7 @@ localize({
       code: "验证码",
       cluName: "集群名称",
       ip: "IP地址",
+      name: "用户名",
     },
 
     fields: {

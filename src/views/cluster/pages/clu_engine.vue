@@ -1,33 +1,32 @@
 <template>
   <div class="engine">
     <b-row>
-      <b-col cols="7" v-for="(item, index) in list" :key="index">
+      <b-col cols="7" v-for="(item, index) in FormList" :key="index">
         <b-form-group
+          style="width: 950px"
           :label="!item.show ? `${item.label}` : ''"
-          :label-for="item.labelFor"
+          :label-for="item.labelName"
           label-cols-md="auto"
         >
           <div class="d-flex">
             <Input :value.sync="item.server_ip" />
-            <!-- <v-select /> -->
             <Select
               :options="stateOptions"
               :value.sync="item.server_state"
               class="mr-1"
             />
             <b-button
-              style="height: 38px; width: 72px"
               variant="outline-primary"
-              class="mr-1"
+              class="mr-1 b-btn"
               @click="handle_add(item, index)"
               >添加</b-button
             >
             <b-button
-              style="height: 38px; width: 72px"
               variant="outline-danger"
-              @click="handle_remove(index)"
+              class="b-btn"
+              @click="del_data(index)"
               v-if="item.show"
-              >删除</b-button
+              >刪除</b-button
             >
           </div>
         </b-form-group>
@@ -37,19 +36,20 @@
 </template>
 
 <script>
-import Input from "../components/input.vue";
-import Select from "../components/select.vue";
+import { Input, Select } from "../components/component";
 import { stateOptions } from "../js/options";
 export default {
-  name: "engine",
-  components: { Input, Select },
+  components: {
+    Input,
+    Select,
+  },
   data() {
     return {
       stateOptions,
-      list: [
+      FormList: [
         {
           label: "控制台服务器：",
-          labelFor: "engine",
+          labelName: "engine",
           server_type: 1,
           server_ip: "",
           server_state: 1,
@@ -59,7 +59,7 @@ export default {
         },
         {
           label: "zenServer：",
-          labelFor: "zenServer",
+          labelName: "zenServer",
           server_type: 2,
           server_ip: "",
           server_state: 1,
@@ -69,7 +69,7 @@ export default {
         },
         {
           label: "hyperServer：",
-          labelFor: "zenServer",
+          labelName: "hyperServer",
           server_type: 3,
           server_ip: "",
           server_state: 1,
@@ -79,7 +79,7 @@ export default {
         },
         {
           label: "记录服务器：",
-          labelFor: "zenServer",
+          labelName: "recordServer",
           server_type: 4,
           server_ip: "",
           server_state: 1,
@@ -89,7 +89,7 @@ export default {
         },
         {
           label: "心跳服务器：",
-          labelFor: "zenServer",
+          labelName: "heartServer",
           server_type: 5,
           server_ip: "",
           server_state: 1,
@@ -102,23 +102,24 @@ export default {
   },
   methods: {
     handle_add(item, index) {
-      console.log(item, index);
-      const newList = JSON.parse(JSON.stringify(item));
-      newList.server_ip = "";
-      newList.server_state = 1;
-      newList.show = true;
-      this.list.splice(index + 1, 0, newList);
+      const cluList = JSON.parse(JSON.stringify(item));
+      console.log(cluList, "cluster");
+      cluList.address = "";
+      cluList.server_ip = "";
+      cluList.statusVal = 1;
+      cluList.show = true;
+      this.FormList.splice(index + 1, 0, cluList);
     },
-    handle_remove(index) {
-      this.list.splice(index, 1);
-      console.log(index, "<<<<<index");
+    del_data(index) {
+      this.FormList.splice(index, 1);
     },
   },
 };
 </script>
 
-<style lang="scss">
-.col-form-label {
-  width: 120px;
+<style lang="scss" scoped>
+.b-btn {
+  width: 75px;
+  height: 38px;
 }
 </style>

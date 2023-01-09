@@ -70,7 +70,6 @@
 import { searchOptions } from "./js/options";
 import { clusterList } from "./js/api";
 import dayjs from "dayjs";
-import { constants } from "buffer";
 export default {
   name: "clusterIndex",
   components: {
@@ -121,7 +120,7 @@ export default {
     searchArea() {
       this.getCluster();
     },
-    changeCluItem(flag, data) {
+    addCluster(flag, data) {
       const id = data ? data.item.cluster_id : undefined;
       const routerName = flag == 0 ? "clusterAdd" : "clusterEdit";
       this.$router.push({ name: routerName, query: { flag, id } });

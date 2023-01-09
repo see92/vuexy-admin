@@ -20,7 +20,6 @@ export default {
     ValidationProvider,
   },
 };
-</script>
-
+</script><datagrid></datagrid>
 <style>
 </style>
