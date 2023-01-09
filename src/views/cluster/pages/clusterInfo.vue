@@ -15,6 +15,12 @@
           <b-tab title="DB">
             <db />
           </b-tab>
+          <b-tab title="redis">
+            <redis />
+          </b-tab>
+          <b-tab title="es">
+            <es />
+          </b-tab>
         </b-tabs>
       </b-form>
     </validation-observer>
@@ -23,7 +29,7 @@
 
 <script>
 import { ValidationObserver } from "vee-validate";
-import { setting, engine, storage, db } from "../pages";
+import { setting, engine, storage, db, redis,es } from "../pages";
 export default {
   name: "clusterInfo",
   components: {
@@ -32,6 +38,8 @@ export default {
     engine,
     storage,
     db,
+    redis,
+    es
   },
 };
 </script>

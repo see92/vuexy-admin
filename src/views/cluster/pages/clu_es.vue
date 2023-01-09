@@ -7,7 +7,7 @@
           name="ip"
           label="IP地址："
           placeText="192.168.1.1"
-          :value.sync="sto.server_ip"
+          :value.sync="es.server_ip"
         />
       </b-col>
       <b-col cols="7">
@@ -16,7 +16,7 @@
           name="name"
           label="用户名："
           placeText="用户名"
-          :value.sync="sto.server_username"
+          :value.sync="es.server_username"
         />
       </b-col>
       <b-col cols="7">
@@ -32,8 +32,7 @@
           >
             <b-input-group style="width: 550px">
               <b-form-input
-                
-                v-model="sto.server_password"
+                v-model="es.server_password"
                 :state="errors.length > 0 ? false : null"
                 :type="passwordFieldType"
                 autocomplete="new-password"
@@ -54,13 +53,13 @@
     </b-row>
   </div>
 </template>
-
-<script>
+  
+  <script>
 import { ValidationProvider } from "vee-validate";
 import { bInput } from "../components/component";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 export default {
-  name: "storage",
+  name: "es",
   components: {
     ValidationProvider,
     bInput,
@@ -69,11 +68,11 @@ export default {
   mixins: [togglePasswordVisibility],
   data() {
     return {
-      sto: {
+      es: {
         server_ip: "",
         server_username: "",
         server_password: "",
-        server_type: 6,
+        server_type: 9,
         server_state: 0,
       },
     };
@@ -85,6 +84,6 @@ export default {
   },
 };
 </script>
-
-<style>
+  
+  <style>
 </style>

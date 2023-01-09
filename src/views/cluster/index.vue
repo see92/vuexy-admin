@@ -120,7 +120,7 @@ export default {
     searchArea() {
       this.getCluster();
     },
-    addCluster(flag, data) {
+    changeCluItem(flag, data) {
       const id = data ? data.item.cluster_id : undefined;
       const routerName = flag == 0 ? "clusterAdd" : "clusterEdit";
       this.$router.push({ name: routerName, query: { flag, id } });
