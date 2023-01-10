@@ -39,6 +39,7 @@
 import { Input, Select } from "../components/component";
 import { stateOptions } from "../js/options";
 export default {
+  name: "engine",
   components: {
     Input,
     Select,
