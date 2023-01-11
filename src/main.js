@@ -5,7 +5,8 @@ import VueCompositionAPI from "@vue/composition-api";
 import router from "./router";
 import store from "./store";
 import App from "./App.vue";
-
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
 // Global Components
 import "./global-components";
 
@@ -16,6 +17,7 @@ import "@core/scss/vue/libs/vue-select.scss";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+Vue.use(ElementUI);
 
 import vSelect from "vue-select";
 
