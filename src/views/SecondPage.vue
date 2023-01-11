@@ -29,9 +29,13 @@
 import { BCard, BCardText } from "bootstrap-vue";
 import dayjs from "dayjs";
 export default {
-  components: {
-    BCard,
-    BCardText,
+  name: "page",
+  components: {},
+  data() {
+    return {
+      options,
+      select: ["A", "B", "C"],
+    };
   },
   data() {
     return {

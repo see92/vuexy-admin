@@ -21,7 +21,7 @@ axiosIns.interceptors.request.use(
     // 如果存在令牌，将其添加到请求的授权标头中
     if (accessToken) {
       // eslint-disable-next-line no-param-reassign
-      config.headers.Authorization = `Bearer${accessToken}`;
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   },

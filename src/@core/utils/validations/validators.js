@@ -7,7 +7,7 @@ export const validatorPositive = (value) => {
 
 export const validatorPassword = (password) => {
   /* eslint-disable no-useless-escape */
-  const regExp = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%&*()]).{8,}/;
+  const regExp = /^.{6,}$/;
   /* eslint-enable no-useless-escape */
   const validPassword = regExp.test(password);
   return validPassword;
@@ -39,7 +39,7 @@ export const validatorPhone = (phone) => {
 };
 // 验证码
 export const validatorCode = (code) => {
-  if (code.length === 6) {
+  if (code.length === 6 || code.length === 3) {
     return true;
   }
 };

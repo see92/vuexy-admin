@@ -51,7 +51,7 @@
       </b-col>
       <b-col cols="7">
         <b-form-group label="描述：" label-for="des" label-cols-md="auto">
-          <b-form-input style="width: 550px" v-model="set.cluster_describe" />
+          <b-form-input style="width: 550px" type="text" v-model="set.cluster_describe" />
         </b-form-group>
       </b-col>
     </b-row>
