@@ -72,7 +72,7 @@ export default {
         server_ip: "",
         server_username: "",
         server_password: "",
-        server_type: 9,
+        server_type: 10,
         server_state: 0,
       },
     };

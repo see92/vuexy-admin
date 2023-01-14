@@ -8,3 +8,21 @@ export const clusterList = (params) => {
     params,
   });
 };
+
+// 更新集群信息
+export const updateCluster = (data) => {
+  return axios.request({
+    url: "api/Cluster/update_cluster_server",
+    method: "post",
+    data,
+  });
+};
+
+// 查询集群常规信息
+export const getClusterInfo = (params) => {
+  return axios.request({
+    url: "api/Cluster/get_cluster_generalsetup",
+    method: "get",
+    params,
+  });
+};

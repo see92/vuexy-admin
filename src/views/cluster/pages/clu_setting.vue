@@ -51,7 +51,11 @@
       </b-col>
       <b-col cols="7">
         <b-form-group label="描述：" label-for="des" label-cols-md="auto">
-          <b-form-input style="width: 550px" type="text" v-model="set.cluster_describe" />
+          <b-form-input
+            style="width: 550px"
+            type="text"
+            v-model="set.cluster_describe"
+          />
         </b-form-group>
       </b-col>
     </b-row>
@@ -76,6 +80,7 @@ export default {
   },
   data() {
     return {
+      flag: this.$route.query.flag,
       cluName,
       cityOptions, //城市选项
       stateOptions, //状态选项
@@ -86,6 +91,20 @@ export default {
         cluster_describe: "",
       },
     };
+  },
+  mounted() {
+    if (this.flag == 1) {
+      this.getCluMsg();
+    }
+  },
+  methods: {
+    getCluMsg() {
+      console.log(this.$emit("getClusterMsg"),'sssssss');
+    },
+    // submit() {
+    //   var a = this.$emit("fMethod",a);
+    //   console.log(a, "aaaaa");
+    // },
   },
 };
 </script>

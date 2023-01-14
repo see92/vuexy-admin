@@ -38,7 +38,7 @@
     "sweetalert2": "^11.6.16",
     "swiper": "5.4.5",
     "uuid": "8.3.2",
-    "vee-validate": "3.4.5",
+    "vee-validate": "^3.4.5",
     "vue": "2.6.12",
     "vue-apexcharts": "1.6.0",
     "vue-autosuggest": "2.2.0",

@@ -32,7 +32,6 @@
           >
             <b-input-group style="width: 550px">
               <b-form-input
-                
                 v-model="sto.server_password"
                 :state="errors.length > 0 ? false : null"
                 :type="passwordFieldType"
@@ -73,7 +72,7 @@ export default {
         server_ip: "",
         server_username: "",
         server_password: "",
-        server_type: 6,
+        server_type: 7,
         server_state: 0,
       },
     };

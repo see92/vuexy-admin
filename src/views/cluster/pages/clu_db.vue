@@ -59,7 +59,7 @@ export default {
   components: {
     ValidationProvider,
     bInput,
-    togglePasswordVisibility
+    togglePasswordVisibility,
   },
   mixins: [togglePasswordVisibility],
   data() {
@@ -68,15 +68,16 @@ export default {
         server_ip: "",
         server_username: "",
         server_password: "",
-        server_state: "",
+        server_type: 8,
+        server_state: 0,
       },
     };
   },
-  computed:{
+  computed: {
     passwordToggleIcon() {
       return this.passwordFieldType === "password" ? "EyeIcon" : "EyeOffIcon";
     },
-  }
+  },
 };
 </script>
 

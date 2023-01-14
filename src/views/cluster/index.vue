@@ -50,6 +50,7 @@
               class="mr-50"
               style="cursor: pointer"
               :id="`edit_${data.index}`"
+              @click="changeCluItem(1, data)"
             />
             <b-tooltip :target="`edit_${data.index}`" title="编辑信息" />
             <feather-icon

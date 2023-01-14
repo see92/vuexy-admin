@@ -39,6 +39,7 @@
 import { Input, Select } from "../components/component";
 import { stateOptions } from "../js/options";
 export default {
+  name: "engine",
   components: {
     Input,
     Select,
@@ -91,6 +92,16 @@ export default {
           label: "心跳服务器：",
           labelName: "heartServer",
           server_type: 5,
+          server_ip: "",
+          server_state: 1,
+          server_userName: "",
+          server_password: "",
+          show: false,
+        },
+        {
+          label: "安在云：",
+          labelName: "anZaiCloud",
+          server_type: 6,
           server_ip: "",
           server_state: 1,
           server_userName: "",

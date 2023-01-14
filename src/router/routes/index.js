@@ -57,6 +57,20 @@ export default [
     },
   },
   {
+    path: "/cluster/edit",
+    name: "clusterEdit",
+    component: () => import("@/views/cluster/pages/clusterInfo"),
+    meta: {
+      pageTitle: "修改",
+      navActiveLink: "cluster",
+      basePage: true,
+      breadcrumb: [
+        { text: "集群管理", to: "/cluster" },
+        { text: "修改", active: true },
+      ],
+    },
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("@/views/Login.vue"),

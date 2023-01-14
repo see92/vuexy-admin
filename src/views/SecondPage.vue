@@ -33,19 +33,26 @@ export default {
   components: {},
   data() {
     return {
-      options,
-      select: ["A", "B", "C"],
-    };
-  },
-  data() {
-    return {
       obj: {
-        date: new Date(),
+        date: 1674835200000,
         newDate: new Date(),
       },
     };
   },
+  mounted() {
+    this.setTime();
+  },
   methods: {
+    setTime() {
+      const date = new Date(this.obj.newDate);
+      var year = date.getFullYear() + 1;
+      var month = date.getMonth();
+      var day = date.getDate();
+      month = month + 1;
+      month = month.toString().padStart(2, "0");
+      day = day.toString().padStart(2, "0");
+      this.$set(this.obj, "newDate", `${year}-${month}-${day}`);
+    },
     changeTime(num) {
       const date = new Date(this.obj.newDate);
       var year = date.getFullYear() + num;
@@ -55,7 +62,6 @@ export default {
       month = month.toString().padStart(2, "0");
       day = day.toString().padStart(2, "0");
       this.$set(this.obj, "newDate", `${year}-${month}-${day}`);
-      console.log(year + "-" + month + "-" + day, "dateeeeeeeeeeeeee");
     },
     getTime() {
       const time = dayjs(this.obj.date).valueOf();

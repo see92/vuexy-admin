@@ -60,8 +60,8 @@ export default {
         server_ip: "",
         server_username: "",
         server_password: "",
-        server_state: "",
-        server_type: 8,
+        server_type: 9,
+        server_state: 0,
       },
     };
   },

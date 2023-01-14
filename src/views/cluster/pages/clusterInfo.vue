@@ -4,24 +4,35 @@
       <b-form @submit.prevent="handle_pre">
         <b-tabs class="tabs">
           <b-tab title="常规设置">
-            <setting />
+            <setting ref="clu_setting" @fMethods="getClusterMsg" />
           </b-tab>
           <b-tab title="服务引擎">
-            <engine />
+            <engine ref="engine" />
           </b-tab>
           <b-tab title="存储">
-            <storage />
+            <storage ref="storage" />
           </b-tab>
           <b-tab title="DB">
-            <db />
+            <db ref="db" />
           </b-tab>
           <b-tab title="redis">
-            <redis />
+            <redis ref="redis" />
           </b-tab>
           <b-tab title="es">
-            <es />
+            <es ref="es" />
           </b-tab>
         </b-tabs>
+        <hr />
+        <b-button
+          class="mr-1"
+          variant="primary"
+          type="submit"
+          :disabled="invalid"
+          >提交</b-button
+        >
+        <b-button variant="outline-primary" @click="handle_goBack"
+          >取消</b-button
+        >
       </b-form>
     </validation-observer>
   </b-card>
@@ -29,7 +40,8 @@
 
 <script>
 import { ValidationObserver } from "vee-validate";
-import { setting, engine, storage, db, redis,es } from "../pages";
+import { setting, engine, storage, db, redis, es } from "../pages";
+import { updateCluster, getClusterInfo } from "../js/api";
 export default {
   name: "clusterInfo",
   components: {
@@ -39,7 +51,84 @@ export default {
     storage,
     db,
     redis,
-    es
+    es,
+  },
+  data() {
+    return {
+      flag: this.$route.query.flag,
+      id: this.$route.query.id,
+    };
+  },
+  mounted() {
+    // if (this.flag == 1) {
+    //   this.getClusterMsg();
+    // }
+  },
+  methods: {
+    async getClusterMsg() {
+      const { data } = await getClusterInfo({
+        clusterId: this.id,
+        admin_id: 7,
+      });
+      console.log(data[0]);
+    },
+    handle_pre() {
+      this.$refs.cluForm.validate().then((success) => {
+        if (success) this.changeAdd();
+      });
+    },
+    // 添加集群信息
+    async changeAdd() {
+      // 获取集群常规设置信息
+      let cluster = JSON.parse(
+        JSON.stringify({ ...this.$refs.clu_setting.set })
+      );
+      // 获取集群服务器信息
+      let getRefs = [
+        { module: "engine", property: "FormList" },
+        { module: "storage", property: "sto" },
+        { module: "db", property: "db" },
+        { module: "redis", property: "redis" },
+        { module: "es", property: "es" },
+      ];
+
+      let serverList = [],
+        newServer = [],
+        newParams = [];
+      getRefs.forEach((item) => {
+        serverList.push(this.$refs[item.module][item.property]);
+      });
+      serverList[0].forEach((item) => {
+        newServer.push({
+          server_ip: item.server_ip,
+          server_password: item.server_password,
+          server_userName: item.server_userName,
+          server_type: item.server_type,
+          server_state: item.server_state,
+        });
+      });
+      serverList.shift();
+      newParams.push(...newServer, ...serverList);
+      const params = {
+        admin_id: "7",
+        cluster,
+        server: newParams,
+      };
+      // return
+      const { status } = await updateCluster(params);
+      if (status == 200) {
+        this.$swal.fire({
+          icon: "success",
+          text: "提交成功",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        this.$router.back(-1);
+      }
+    },
+    handle_goBack() {
+      this.$router.back(-1);
+    },
   },
 };
 </script>
@@ -55,72 +144,3 @@ export default {
   // }
 }
 </style>
-<!-- <template>
-  <b-card class="card-pd">
-    <validation-observer ref="cluForm" #default="{ invalid }">
-      <b-form autocomplete="off" @submit.prevent="handle_pre">
-        <b-tabs>
-          <b-tab title="常规设置">
-            <setting ref="set" />
-          </b-tab>
-          <b-tab title="服务引擎">
-            <engine ref="engine" />
-          </b-tab>
-          <b-tab title="存储">
-            <storage />
-          </b-tab>
-          <b-tab title="DB">
-            <db />
-          </b-tab>
-          <b-tab title="Redis"></b-tab>
-          <b-tab title="ES"></b-tab>
-        </b-tabs>
-        <hr />
-        <div class="btn">
-          <b-button
-            :disabled="invalid"
-            type="submit"
-            class="mr-1"
-            variant="primary"
-            >保存</b-button
-          >
-          <b-button variant="outline-primary">取消</b-button>
-        </div>
-      </b-form>
-    </validation-observer>
-  </b-card>
-</template>
-
-<script>
-import { BCard, BForm, BTab, BTabs, BButton } from "bootstrap-vue";
-import { ValidationObserver } from "vee-validate";
-import { setting, engine, storage, db } from "../pages";
-export default {
-  name: "clusterInfo",
-  components: {
-    BCard,
-    BForm,
-    BTab,
-    BTabs,
-    ValidationObserver,
-    setting,
-    BButton,
-    engine,
-    storage,
-    db,
-  },
-  data() {
-    return {};
-  },
-  methods: {
-    handle_pre() {
-      let set = JSON.parse(JSON.stringify(this.$refs.set.set));
-      let engine = JSON.parse(JSON.stringify(this.$refs.engine.engine));
-      console.log(engine, "<<<set");
-    },
-  },
-};
-</script>
-
-<style>
-</style> -->
