@@ -18,6 +18,8 @@
       <b-table
         :fields="fieldsList"
         :items="cluItem"
+        :sort-by.sync="sortBy"
+        :sort-desc.sync="sortDesc"
         class="text-nowrap"
         show-empty
         responsive
@@ -82,12 +84,14 @@ export default {
       searchOptions, //区域下拉框
       dayjs, //引入dayjs组件
       area: 0, //区域
+      sortBy: "create_time",
+      sortDesc: false,
       fieldsList: [
         { key: "cluster_name", label: "集群名称" },
         { key: "cluster_area", label: "集群区域" },
         { key: "cluster_state", label: "集群状态" },
         { key: "cluster_describe", label: "集群描述" },
-        { key: "create_time", label: "创建时间" },
+        { key: "create_time", label: "创建时间", sortable: true },
         { key: "actions", label: "操作", thStyle: "width:100px" },
       ],
       cluItem: [],

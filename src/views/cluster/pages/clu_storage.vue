@@ -66,6 +66,24 @@ export default {
     togglePasswordVisibility,
   },
   mixins: [togglePasswordVisibility],
+  props: {
+    serverList: {
+      value: Array,
+    },
+  },
+  watch: {
+    serverList: {
+      handler(newValue) {
+        let val = JSON.parse(JSON.stringify(newValue));
+        console.log(val, "storage");
+        val.forEach((element) => {
+          if (element.server_type == 7) {
+            this.sto = Object.assign({}, element);
+          }
+        });
+      },
+    },
+  },
   data() {
     return {
       sto: {

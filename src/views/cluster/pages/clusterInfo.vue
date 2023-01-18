@@ -4,22 +4,22 @@
       <b-form @submit.prevent="handle_pre">
         <b-tabs class="tabs">
           <b-tab title="常规设置">
-            <setting ref="clu_setting" @fMethods="getClusterMsg" />
+            <setting ref="clu_setting" :form="clusterMsg" />
           </b-tab>
           <b-tab title="服务引擎">
-            <engine ref="engine" />
+            <engine ref="engine" :serverList="serverList" />
           </b-tab>
           <b-tab title="存储">
-            <storage ref="storage" />
+            <storage ref="storage" :serverList="serverList" />
           </b-tab>
           <b-tab title="DB">
-            <db ref="db" />
+            <db ref="db" :serverList="serverList" />
           </b-tab>
           <b-tab title="redis">
-            <redis ref="redis" />
+            <redis ref="redis" :serverList="serverList" />
           </b-tab>
           <b-tab title="es">
-            <es ref="es" />
+            <es ref="es" :serverList="serverList" />
           </b-tab>
         </b-tabs>
         <hr />
@@ -41,7 +41,7 @@
 <script>
 import { ValidationObserver } from "vee-validate";
 import { setting, engine, storage, db, redis, es } from "../pages";
-import { updateCluster, getClusterInfo } from "../js/api";
+import { updateCluster, getClusterInfo, clusterServer } from "../js/api";
 export default {
   name: "clusterInfo",
   components: {
@@ -55,14 +55,17 @@ export default {
   },
   data() {
     return {
+      clusterMsg: {},
+      serverList: [],
       flag: this.$route.query.flag,
       id: this.$route.query.id,
     };
   },
   mounted() {
-    // if (this.flag == 1) {
-    //   this.getClusterMsg();
-    // }
+    if (this.flag == 1) {
+      this.getClusterMsg();
+      this.getClusterServer();
+    }
   },
   methods: {
     async getClusterMsg() {
@@ -70,7 +73,14 @@ export default {
         clusterId: this.id,
         admin_id: 7,
       });
-      console.log(data[0]);
+      this.clusterMsg = data;
+    },
+    async getClusterServer() {
+      const { data } = await clusterServer({
+        clusterId: this.id,
+        admin_id: 7,
+      });
+      this.serverList = data;
     },
     handle_pre() {
       this.$refs.cluForm.validate().then((success) => {
@@ -83,7 +93,10 @@ export default {
       let cluster = JSON.parse(
         JSON.stringify({ ...this.$refs.clu_setting.set })
       );
+      console.log(cluster, "cluster");
+
       // 获取集群服务器信息
+      // return;
       let getRefs = [
         { module: "engine", property: "FormList" },
         { module: "storage", property: "sto" },
@@ -114,7 +127,8 @@ export default {
         cluster,
         server: newParams,
       };
-      // return
+      console.log(params, "params");
+      return;
       const { status } = await updateCluster(params);
       if (status == 200) {
         this.$swal.fire({

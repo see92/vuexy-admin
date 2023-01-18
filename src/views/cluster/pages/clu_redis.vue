@@ -54,6 +54,23 @@ export default {
     togglePasswordVisibility,
   },
   mixins: [togglePasswordVisibility],
+  props: {
+    serverList: {
+      value: Array,
+    },
+  },
+  watch: {
+    serverList: {
+      handler(newValue) {
+        let val = JSON.parse(JSON.stringify(newValue));
+        val.forEach((element) => {
+          if (element.server_type == 9) {
+            this.redis = Object.assign({}, element);
+          }
+        });
+      },
+    },
+  },
   data() {
     return {
       redis: {

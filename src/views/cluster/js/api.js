@@ -26,3 +26,12 @@ export const getClusterInfo = (params) => {
     params,
   });
 };
+
+// 查询集群服务列表
+export const clusterServer = (params) => {
+  return axios.request({
+    url: "api/Cluster/get_cluster_server",
+    method: "get",
+    params,
+  });
+};

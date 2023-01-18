@@ -44,6 +44,48 @@ export default {
     Input,
     Select,
   },
+  props: {
+    serverList: { value: Array },
+  },
+  watch: {
+    serverList: {
+      handler(newValue) {
+        let val = JSON.parse(JSON.stringify(newValue));
+        let arr = val
+          .filter((item) => item.server_type < 7)
+          .sort(this.comPare("server_type"));
+        let count = [];
+        let newTabList = [];
+
+        arr.forEach((item) => {
+          this.FormList.forEach((each) => {
+            if (count.indexOf(each.server_type) == -1) {
+              if (item.server_type == each.server_type) {
+                count.push(each.server_type);
+                each.server_ip = item.server_ip;
+                each.server_state = item.server_state;
+                each.server_id = item.server_id;
+                each.cluster_id = item.cluster_id;
+                newTabList.push(each);
+              }
+            } else if (count.indexOf(each.server_type) > -1) {
+              let newObj = { ...each };
+              if (item.server_type == newObj.server_type) {
+                newObj.flag = true;
+                newObj.server_ip = item.server_ip;
+                newObj.server_state = item.server_state;
+                newObj.server_id = item.server_id;
+                newObj.cluster_id = item.cluster_id;
+                newObj.show = true;
+                newTabList.push(newObj);
+              }
+            }
+          });
+        });
+        this.FormList = newTabList;
+      },
+    },
+  },
   data() {
     return {
       stateOptions,
@@ -123,6 +165,11 @@ export default {
     },
     del_data(index) {
       this.FormList.splice(index, 1);
+    },
+    comPare(params) {
+      return function (key, val) {
+        return key[params] - val[params];
+      };
     },
   },
 };

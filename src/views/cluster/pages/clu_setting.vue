@@ -63,20 +63,23 @@
 </template>
 
 <script>
-import { BRow, BCol, BFormGroup, BFormInput } from "bootstrap-vue";
 import { ValidationProvider } from "vee-validate";
 import { cluName } from "@validations";
 import { cityOptions, stateOptions } from "../js/options";
-import vSelect from "vue-select";
 export default {
   name: "setting",
   components: {
-    BRow,
-    BCol,
-    BFormGroup,
-    BFormInput,
     ValidationProvider,
-    vSelect,
+  },
+  props: {
+    form: { value: Object },
+  },
+  watch: {
+    form: {
+      handler(newValue) {
+        this.set = JSON.parse(JSON.stringify(newValue[0]));
+      },
+    },
   },
   data() {
     return {
@@ -92,20 +95,8 @@ export default {
       },
     };
   },
-  mounted() {
-    if (this.flag == 1) {
-      this.getCluMsg();
-    }
-  },
-  methods: {
-    getCluMsg() {
-      console.log(this.$emit("getClusterMsg"),'sssssss');
-    },
-    // submit() {
-    //   var a = this.$emit("fMethod",a);
-    //   console.log(a, "aaaaa");
-    // },
-  },
+
+  methods: {},
 };
 </script>
 

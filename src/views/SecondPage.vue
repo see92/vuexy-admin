@@ -22,15 +22,19 @@
       <b-button @click="changeTime(3)">三年</b-button>
       <b-button @click="changeTime(5)">五年</b-button>
     </b-form-group>
+    <p>-----------------------</p>
+    <div>
+      <child @fatherMethod="fatherMethod"></child>
+    </div>
   </b-card>
 </template>
 
 <script>
-import { BCard, BCardText } from "bootstrap-vue";
+import child from "./child.vue";
 import dayjs from "dayjs";
 export default {
   name: "page",
-  components: {},
+  components: { child },
   data() {
     return {
       obj: {
@@ -67,6 +71,9 @@ export default {
       const time = dayjs(this.obj.date).valueOf();
       const newTime = dayjs(this.obj.newDate).valueOf();
       console.log(time, newTime);
+    },
+    fatherMethod() {
+      console.log("父组件方法");
     },
   },
 };
