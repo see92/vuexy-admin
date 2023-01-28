@@ -32,6 +32,7 @@
 <script>
 import child from "./child.vue";
 import dayjs from "dayjs";
+import { reqMockData } from "../mock/reqMock";
 export default {
   name: "page",
   components: { child },
@@ -40,11 +41,16 @@ export default {
       obj: {
         date: 1674835200000,
         newDate: new Date(),
+        mockData: [],
       },
     };
   },
   mounted() {
     this.setTime();
+    reqMockData().then((res) => {
+      console.log(res);
+      this.mockData = res.data;
+    });
   },
   methods: {
     setTime() {

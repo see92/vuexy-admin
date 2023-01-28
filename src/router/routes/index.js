@@ -71,6 +71,16 @@ export default [
     },
   },
   {
+    path: "/organization",
+    name: "organization",
+    component: () => import("@/views/organization/index"),
+    meta: {
+      pageTitle: "组织管理",
+      basePage: true,
+      breadcrumb: [{ text: "组织管理", active: true }],
+    },
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("@/views/Login.vue"),

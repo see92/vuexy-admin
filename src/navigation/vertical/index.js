@@ -14,4 +14,9 @@ export default [
     route: "cluster",
     icon: "DatabaseIcon",
   },
+  {
+    title: "组织列表",
+    route: "organization",
+    icon: "GitPullRequestIcon",
+  },
 ];

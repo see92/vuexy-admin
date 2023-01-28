@@ -10,6 +10,8 @@ import "element-ui/lib/theme-chalk/index.css";
 // Global Components
 import "./global-components";
 
+require("./mock/mock.js");
+
 // 3rd party plugins
 import "@/libs/portal-vue";
 import "@/libs/toastification";

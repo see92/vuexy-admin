@@ -35,3 +35,12 @@ export const clusterServer = (params) => {
     params,
   });
 };
+
+// 删除集群服务信息
+export const deleteCluster = (params) => {
+  return axios.request({
+    url: "api/Cluster/delete_cluster",
+    method: "delete",
+    params,
+  });
+};
