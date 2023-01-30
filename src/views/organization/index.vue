@@ -1,7 +1,7 @@
 <template>
   <b-card no-body>
     <div class="mt-2">
-      <b-button variant="primary">添加</b-button>
+      <b-button variant="primary" @click="changeOrgItem(0)">添加</b-button>
     </div>
     <div class="mt-2">
       <b-table
@@ -15,7 +15,9 @@
           <span>{{ findSize(sizeOptions, data.item.org_size) }}</span>
         </template>
         <template #cell(specific_industries)="data">
-          <!-- <span>{{ data.item.specific_industries }}</span> -->
+          <span>
+            {{ findDicInfo(data.item.specific_industries, dicItem) }}
+          </span>
         </template>
         <template #cell(org_status)="data">
           <span>{{
@@ -27,7 +29,9 @@
           }}</span>
         </template>
         <template #cell(status)="data">
-          <span>{{ data.item.status == 0 ? "禁用" : "启用" }}</span>
+          <b-badge :variant="variant[data.item.status]">{{
+            data.item.status == 0 ? "禁用" : "启用"
+          }}</b-badge>
         </template>
         <template #cell(create_time)="data">
           <span>{{ formatTime(data.item.create_time) }}</span>
@@ -40,15 +44,24 @@
               class="mr-50"
               style="cursor: pointer"
               :id="`edit_${data.index}`"
+              @click="changeOrgItem(1, data)"
             />
-            <b-tooltip :target="`edit_${data.index}`" title="编辑信息" />
+            <b-tooltip
+              :target="`edit_${data.index}`"
+              title="编辑信息"
+              placement="left"
+            />
             <feather-icon
               icon="Trash2Icon"
               size="16"
               style="cursor: pointer"
               :id="`Trash2_${data.index}`"
             />
-            <b-tooltip :target="`Trash2_${data.index}`" title="删除信息" />
+            <b-tooltip
+              :target="`Trash2_${data.index}`"
+              title="删除信息"
+              placement="left"
+            />
           </div>
         </template>
       </b-table>
@@ -75,6 +88,7 @@ export default {
   name: "organization",
   data() {
     return {
+      variant: { 0: "light-danger", 1: "light-success" },
       page: 1,
       size: 20,
       count: 0,
@@ -118,6 +132,7 @@ export default {
       this.page = e;
       this.getOrganInfo();
     },
+    // 查找组织规模
     findSize(params, val) {
       let key = val;
       let items = [];
@@ -128,22 +143,36 @@ export default {
       });
       return items.toString();
     },
+    // 获取行业信息
     async getDicInfo() {
       const { data } = await getDicTree();
-      this.dicItem = data.map((item) => {
-        item.label = item.name;
-        item.value = item.id;
-        if (item.children) {
-          item.children.forEach((each) => {
-            each.label = each.name;
-            each.value = each.id;
-            if (each.children) {
-              each.children = null;
-            }
-          });
-        }
-        return item;
+      this.dicItem = data;
+    },
+    // 查找回显行业信息
+    findDicInfo(id, params) {
+      let name = "";
+      id.forEach((k) => {
+        params.forEach((j) => {
+          if (j.id === k) {
+            name = `${j.name}`;
+          }
+          if (j.children) {
+            j.children.forEach((l) => {
+              if (l.id === k) {
+                name += `${l.name}`;
+              }
+            });
+          }
+        });
       });
+      return name;
+    },
+    // 新增/修改点击事件
+    changeOrgItem(flag, data) {
+      const id = data ? data.item.org_id : undefined;
+      const routerName = flag == 0 ? "organizationAdd" : "organizationEdit";
+      this.$router.push({ name: routerName, query: { flag, id } });
+      console.log(flag, id);
     },
   },
 };

@@ -55,7 +55,7 @@
               :id="`edit_${data.index}`"
               @click="changeCluItem(1, data)"
             />
-            <b-tooltip :target="`edit_${data.index}`" title="编辑信息" />
+            <b-tooltip :target="`edit_${data.index}`" title="编辑信息" placement="left" />
             <feather-icon
               icon="Trash2Icon"
               size="16"
@@ -63,7 +63,7 @@
               :id="`Trash2_${data.index}`"
               @click="delShow(data.item.cluster_id)"
             />
-            <b-tooltip :target="`Trash2_${data.index}`" title="删除信息" />
+            <b-tooltip :target="`Trash2_${data.index}`" title="删除信息" placement="left" />
           </div>
         </template>
       </b-table>

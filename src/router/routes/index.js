@@ -81,6 +81,34 @@ export default [
     },
   },
   {
+    path: "/organization/add",
+    name: "organizationAdd",
+    component: () => import("@/views/organization/page/organInfo"),
+    meta: {
+      pageTitle: "新增",
+      navActiveLink: "organization",
+      basePage: true,
+      breadcrumb: [
+        { text: "组织管理", to: "/organization" },
+        { text: "新增", active: true },
+      ],
+    },
+  },
+  {
+    path: "/organization/edit",
+    name: "organizationEdit",
+    component: () => import("@/views/organization/page/organInfo"),
+    meta: {
+      pageTitle: "修改",
+      navActiveLink: "organization",
+      basePage: true,
+      breadcrumb: [
+        { text: "组织管理", to: "/organization" },
+        { text: "修改", active: true },
+      ],
+    },
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("@/views/Login.vue"),

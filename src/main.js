@@ -17,6 +17,19 @@ import "@/libs/portal-vue";
 import "@/libs/toastification";
 import "@core/scss/vue/libs/vue-select.scss";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
+
+// import { ValidationProvider, ValidationObserver, extend } from "vee-validate";
+// extend("secret", {
+//   validate: (value) => value === "example",
+//   message: "This is not the magic word",
+// });
+// Vue.component(
+//   "ValidationProvider",
+//   ValidationProvider,
+//   "ValidationObserver",
+//   ValidationObserver
+// );
+
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(ElementUI);

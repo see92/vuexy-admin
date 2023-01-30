@@ -98,6 +98,7 @@ localize({
       cluName: "集群名称",
       ip: "IP地址",
       name: "用户名",
+      orgName: "组织名称",
     },
 
     fields: {

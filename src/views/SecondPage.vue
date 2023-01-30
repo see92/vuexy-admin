@@ -26,6 +26,86 @@
     <div>
       <child @fatherMethod="fatherMethod"></child>
     </div>
+    <p>-----------------------</p>
+    <div>
+      <feather-icon icon="EditIcon" id="edit" size="16" />
+      <b-tooltip target="edit" title="编辑信息" placement="right" />
+    </div>
+    <div>
+      <!-- <feather-icon icon="Trash2Icon" size="16" id="trash2" v-b-tooltip.hover /> -->
+    </div>
+    <hr />
+    <div style="border: 1px solid pink">
+      <ValidationObserver ref="form">
+        <b-form @submit.prevent="onSubmit">
+          <fieldset>
+            <legend>Step{{ currentStep }}</legend>
+            <keep-alive>
+              <ValidationProvider
+                v-if="currentStep === 1"
+                name="email"
+                rules="required|email"
+                v-slot="{ errors }"
+              >
+                <b-form-input
+                  v-model="email"
+                  type="text"
+                  style="width: 300px"
+                  :state="errors.length > 0 ? false : null"
+                />
+                <span class="text-danger">{{ errors[0] }} </span>
+              </ValidationProvider>
+            </keep-alive>
+
+            <keep-alive>
+              <ValidationProvider
+                v-if="currentStep === 2"
+                name="firstName"
+                rules="required"
+                v-slot="{ errors }"
+              >
+                <b-form-input
+                  v-model="fname"
+                  type="text"
+                  style="width: 300px"
+                  :state="errors.length > 0 ? false : null"
+                />
+                <span class="text-danger">{{ errors[0] }} </span>
+              </ValidationProvider>
+            </keep-alive>
+
+            <keep-alive>
+              <ValidationProvider
+                v-if="currentStep === 3"
+                name="address"
+                rules="required|min:5"
+                v-slot="{ errors }"
+              >
+                <b-form-input
+                  v-model="address"
+                  type="text"
+                  style="width: 300px"
+                  :state="errors.length > 0 ? false : null"
+                />
+                <span class="text-danger">{{ errors[0] }} </span>
+              </ValidationProvider>
+            </keep-alive>
+          </fieldset>
+
+          <b-button
+            variant="primary"
+            class="mr-1"
+            @click="goToStep(currentStep - 1)"
+            >Previous</b-button
+          >
+          <b-button
+            variant="outline-primary"
+            @click="goToStep(currentStep + 1)"
+            >{{ currentStep === 3 ? "Submit" : "Next" }}</b-button
+          >
+        </b-form>
+      </ValidationObserver>
+    </div>
   </b-card>
 </template>
 
@@ -33,11 +113,19 @@
 import child from "./child.vue";
 import dayjs from "dayjs";
 import { reqMockData } from "../mock/reqMock";
+import { ValidationObserver, ValidationProvider } from "vee-validate";
+import { required, email } from "@validations";
 export default {
   name: "page",
-  components: { child },
+  components: { child, ValidationObserver, ValidationProvider },
   data() {
     return {
+      required,
+      email,
+      currentStep: 1,
+      email: "",
+      fname: "",
+      address: "",
       obj: {
         date: 1674835200000,
         newDate: new Date(),
@@ -53,6 +141,25 @@ export default {
     });
   },
   methods: {
+    goToStep(step) {
+      if (step < 1) {
+        return;
+      }
+      if (step > 3) {
+        this.onSubmit();
+        return;
+      }
+      this.currentStep = step;
+    },
+    onSubmit() {
+      this.$refs.form.validate().then((success) => {
+        if (!success) {
+          return;
+        }
+
+        alert("Success!");
+      });
+    },
     setTime() {
       const date = new Date(this.obj.newDate);
       var year = date.getFullYear() + 1;
