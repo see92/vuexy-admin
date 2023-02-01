@@ -96,7 +96,6 @@ export default {
       console.log(cluster, "cluster");
 
       // 获取集群服务器信息
-      // return;
       let getRefs = [
         { module: "engine", property: "FormList" },
         { module: "storage", property: "sto" },

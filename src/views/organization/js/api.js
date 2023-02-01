@@ -16,3 +16,21 @@ export const getDicTree = () => {
     method: "get",
   });
 };
+
+// 获取省市区三级联动
+// /api/Dictionary/get_regions
+export const get_regions = () => {
+  return axios.request({
+    url: "api/Dictionary/get_regions",
+    method: "get",
+  });
+};
+
+// 获取集群列表
+export const getClusterInfo = (params) => {
+  return axios.request({
+    url: "api/Cluster/get_cluster_info",
+    method: "get",
+    params,
+  });
+};
