@@ -40,6 +40,10 @@ const cityOptions = [
   { key: 6, label: "成都", value: 6, disabled: false },
   { key: 7, label: "南京", value: 7, disabled: false },
 ];
+const typeOptions = [
+  { key: 0, label: "普通管理员" },
+  { key: 1, label: "超级管理员" },
+];
 export {
   sizeOptions,
   osOptions,
@@ -48,4 +52,5 @@ export {
   moduleOptions,
   statusOptions,
   cityOptions,
+  typeOptions,
 };

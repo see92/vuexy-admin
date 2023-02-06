@@ -29,7 +29,16 @@ export const get_regions = () => {
 // 获取集群列表
 export const getClusterInfo = (params) => {
   return axios.request({
-    url: "api/Cluster/get_cluster_info",
+    url: "api/Cluster/get_global_cluster_info",
+    method: "get",
+    params,
+  });
+};
+
+//通过手机号码搜索用户信息
+export const getUserInfo = (params) => {
+  return axios.request({
+    url: "api/Organization/get_organizeuserbyphone",
     method: "get",
     params,
   });

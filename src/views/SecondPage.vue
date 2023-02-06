@@ -31,9 +31,7 @@
       <feather-icon icon="EditIcon" id="edit" size="16" />
       <b-tooltip target="edit" title="编辑信息" placement="right" />
     </div>
-    <div>
-      <!-- <feather-icon icon="Trash2Icon" size="16" id="trash2" v-b-tooltip.hover /> -->
-    </div>
+    <div></div>
     <hr />
     <div style="border: 1px solid pink">
       <ValidationObserver ref="form">
@@ -106,6 +104,9 @@
         </b-form>
       </ValidationObserver>
     </div>
+    <hr />
+    <b-form-checkbox disabled switch> 测试1 </b-form-checkbox>
+    <el-switch disabled v-model="value2">测试2</el-switch>
   </b-card>
 </template>
 
@@ -120,6 +121,7 @@ export default {
   components: { child, ValidationObserver, ValidationProvider },
   data() {
     return {
+      value2: true,
       required,
       email,
       currentStep: 1,

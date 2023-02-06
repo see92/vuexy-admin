@@ -207,7 +207,8 @@ export default {
           });
         }
         if (k.children.length === 0) {
-          k.disabled = true;
+          delete k.children;
+          console.log(k, "aaaaaa");
         }
         return k;
       });
